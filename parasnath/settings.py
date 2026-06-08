@@ -93,25 +93,27 @@ DB_LIVE = os.environ("DB_LIVE")
 # }
 
 
-if DB_LIVE in ["False",False]:
-     DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-else:
-     DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ("DB_NAME"),
-        'USER': os.environ("DB_USER"),
-        'PASSWORD': os.environ("DB_PASSWORD"),
-        'HOST': os.environ("DB_HOST"),
-        'PORT': os.environ("DB_PORT"),
-    }
-}
 
+
+# Agar DB_LIVE True hai toh MySQL uthaye, nahi toh default sqlite
+if os.environ.get('DB_LIVE') == 'True':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ.get('DB_NAME'),
+            'USER': os.environ.get('DB_USER'),
+            'PASSWORD': os.environ.get('DB_PASSWORD'),
+            'HOST': os.environ.get('DB_HOST'),
+            'PORT': os.environ.get('DB_PORT'),
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 
